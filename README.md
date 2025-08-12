@@ -33,4 +33,4 @@ A version for [StartOS](https://startos.com/) can be found here: [sparrow-webtop
 
 # License
 
-[MIT](LICENSE)
+[GPL](LICENSE)
