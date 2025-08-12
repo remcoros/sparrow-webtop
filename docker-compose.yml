@@ -1,0 +1,31 @@
+services:
+  sparrow-webtop:
+    image: ghcr.io/remcoros/sparrow-webtop:latest
+    container_name: sparrow-webtop
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      # CHANGE THIS USERNAME/PASSWORD!!
+      - CUSTOM_USER=webtop
+      - PASSWORD=password
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      # When 1, the web client auto-reconnects on network hiccups (default in entrypoint)
+      - RECONNECT=1
+    volumes:
+      # Persistent data
+      - sparrow-webtop-data:/config
+    restart: unless-stopped
+    shm_size: 1gb
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+volumes:
+  sparrow-webtop-data:
+    driver: local
