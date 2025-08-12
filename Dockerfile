@@ -37,7 +37,6 @@ FROM ghcr.io/linuxserver/baseimage-kasmvnc:debianbookworm-876361b9-ls121 AS buil
 
 # these are specified in Makefile
 ARG ARCH
-ARG PLATFORM
 ARG SPARROW_VERSION=2.2.3
 ARG SPARROW_DEBVERSION=2.2.3-1
 ARG SPARROW_PGP_SIG=E94618334C674B40
@@ -122,7 +121,7 @@ RUN \
   # sparrow requires this directory to exist
   mkdir -p /usr/share/desktop-directories/ && \
   # Download and install Sparrow (todo: gpg sig verification)
-  wget --quiet https://github.com/sparrowwallet/sparrow/releases/download/${SPARROW_VERSION}/sparrowwallet_${SPARROW_DEBVERSION}_${PLATFORM}.deb \
+  wget --quiet https://github.com/sparrowwallet/sparrow/releases/download/${SPARROW_VERSION}/sparrowwallet_${SPARROW_DEBVERSION}_amd64.deb \
                https://github.com/sparrowwallet/sparrow/releases/download/${SPARROW_VERSION}/sparrow-${SPARROW_VERSION}-manifest.txt \
                https://github.com/sparrowwallet/sparrow/releases/download/${SPARROW_VERSION}/sparrow-${SPARROW_VERSION}-manifest.txt.asc \
                https://keybase.io/craigraw/pgp_keys.asc && \
@@ -131,7 +130,7 @@ RUN \
   gpg --status-fd 1 --verify sparrow-${SPARROW_VERSION}-manifest.txt.asc | grep -q "GOODSIG ${SPARROW_PGP_SIG} Craig Raw <craig@sparrowwallet.com>" || exit 1 && \
   sha256sum --check sparrow-${SPARROW_VERSION}-manifest.txt --ignore-missing || exit 1 && \
   DEBIAN_FRONTEND=noninteractive \
-  apt-get install -y ./sparrowwallet_${SPARROW_DEBVERSION}_${PLATFORM}.deb && \
+  apt-get install -y ./sparrowwallet_${SPARROW_DEBVERSION}_amd64.deb && \
   # cleanup
   rm ./sparrow* ./pgp_keys.asc
 
