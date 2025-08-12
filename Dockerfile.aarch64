@@ -7,7 +7,10 @@ ARG KASMWEB_RELEASE="46412d23aff1f45dffa83fafb04a683282c8db58"
 RUN \
   echo "**** install build deps ****" && \
   apt-get update && \
-  apt-get install -y phantomjs
+  apt-get install -y --no-install-recommends libfontconfig1 && \
+  wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O - \
+    | tar -xjf - -C /usr/local/share/ && \
+  ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
 
 RUN \
   echo "**** build clientside ****" && \
