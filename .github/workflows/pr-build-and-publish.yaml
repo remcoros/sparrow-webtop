@@ -54,6 +54,9 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile }}
           platforms: ${{ matrix.platform }}
+          # Ensure per-arch tags are single-image manifests (not manifest lists)
+          provenance: false
+          sbom: false
           push: true
           tags: |
             ghcr.io/${{ steps.vars.outputs.owner }}/sparrow-webtop:${{ steps.vars.outputs.head_sha }}-${{ matrix.arch }}
