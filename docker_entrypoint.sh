@@ -4,9 +4,6 @@ echo
 echo "Initialising Sparrow on Webtop..."
 echo
 
-# Copy default files
-cp /defaults/.backupignore /config/.backupignore
-
 # always overwrite autostart in case we change it
 mkdir -p /config/.config/openbox
 cp /defaults/autostart /config/.config/openbox/autostart
