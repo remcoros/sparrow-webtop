@@ -103,8 +103,8 @@ RUN \
   apt-get upgrade -y && \
   echo "**** xfce tweaks ****" && \
   rm -f /etc/xdg/autostart/xscreensaver.desktop && \
-  # StartOS branding
-  echo "Starting Sparrow on Webtop for StartOS..." > /etc/s6-overlay/s6-rc.d/init-adduser/branding; sed -i '/run_branding() {/,/}/d' /docker-mods && \
+  # branding
+  echo "Starting Sparrow on Webtop..." > /etc/s6-overlay/s6-rc.d/init-adduser/branding; sed -i '/run_branding() {/,/}/d' /docker-mods && \
   # cleanup and remove some unneeded large binaries
   echo "**** cleanup ****" && \
   rm /kasmbins/kasm_webcam_server && \
