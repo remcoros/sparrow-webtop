@@ -37,8 +37,8 @@ FROM ghcr.io/linuxserver/baseimage-kasmvnc:debianbookworm-876361b9-ls121 AS buil
 
 # these are specified in Makefile
 ARG ARCH
-ARG SPARROW_VERSION=2.3.0
-ARG SPARROW_DEBVERSION=2.3.0-1
+ARG SPARROW_VERSION=2.3.1
+ARG SPARROW_DEBVERSION=2.3.1-1
 ARG SPARROW_PGP_SIG=E94618334C674B40
 
 RUN \
