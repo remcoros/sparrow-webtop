@@ -37,7 +37,7 @@
 
   <windowRules>
     <windowRule identifier="*" serverDecoration="yes" />
-    <windowRule identifier="Sparrow" title="Sparrow" windowType="normal"><action name="Maximize" /></windowRule>
+    <windowRule identifier="Sparrow" title="Sparrow" type="normal"><action name="Maximize" /></windowRule>
     <windowRule identifier="brave" serverDecoration="no" />
     <windowRule identifier="chrome" serverDecoration="no" />
     <windowRule identifier="chromium-browser" serverDecoration="no" />
