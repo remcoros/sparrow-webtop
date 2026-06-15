@@ -12,11 +12,12 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
-      # When 1, the web client auto-reconnects on network hiccups (default in entrypoint)
-      - RECONNECT=1
     volumes:
       # Persistent data
       - sparrow-webtop-data:/config
+    # Uncomment for Intel/AMD GPU rendering and hardware video encoding.
+    # devices:
+    #   - /dev/dri:/dev/dri
     restart: unless-stopped
     shm_size: 1gb
     healthcheck:
