@@ -1,9 +1,9 @@
-FROM ghcr.io/linuxserver/baseimage-selkies:debiantrixie-dd7f03ff-ls116 AS buildstage
+FROM ghcr.io/linuxserver/baseimage-selkies:debiantrixie-6e696be0-ls125 AS buildstage
 
 # these are specified in Makefile
 ARG ARCH
-ARG SPARROW_VERSION=2.5.2
-ARG SPARROW_DEBVERSION=2.5.2-1
+ARG SPARROW_VERSION=2.5.3
+ARG SPARROW_DEBVERSION=2.5.3-1
 ARG SPARROW_PGP_SIG=E94618334C674B40
 
 RUN \
