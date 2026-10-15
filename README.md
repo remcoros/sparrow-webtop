@@ -1,7 +1,7 @@
 # Sparrow Webtop
 
 Sparrow Webtop runs [Sparrow Wallet](https://sparrowwallet.com/) in a
-[Selkies powered](https://github.com/linuxserver/docker-baseimage-selkies/) Linux desktop that is accessible from a web browser.
+[Selkies 2 powered](https://github.com/linuxserver/docker-baseimage-selkies/) Linux desktop that is accessible from a web browser.
 
 Images are published for AMD64 and ARM64.
 
@@ -61,8 +61,29 @@ For the complete X11 software-rendering path, set:
 ```
 
 `LIBGL_ALWAYS_SOFTWARE=true` also disables the cosmetic X11 compositor. Turbo
-mode is enabled by default through `SELKIES_H264_STREAMING_MODE=true` and
-remains configurable in the Selkies sidebar.
+mode is disabled by default through `SELKIES_VIDEO_STREAMING_MODE=false`, and
+`SELKIES_FRAMERATE="30,8-120"` sets the initial frame rate to 30 fps while
+retaining the 8–120 fps adjustment range. Both settings remain configurable in
+the Selkies sidebar.
+
+## Browser camera and media
+
+The browser camera is forwarded to Sparrow on demand when its QR scanner opens.
+Use a browser that supports camera access through a trusted HTTPS origin, or
+localhost, and allow the camera permission when prompted. A remote HTTP URL and
+Tor Browser cannot provide webcam access. The desktop can still be viewed and
+controlled without a camera.
+
+Desktop audio output and microphone forwarding are disabled and locked in the
+server settings. Webcam forwarding is independent of these settings.
+
+## Desktop applications
+
+The bundled proot application gallery, its installer and its external catalogue
+fetch are removed. The existing terminal, file manager, editor and sudo support
+remain available. The desktop follows the browser size by default
+(`SELKIES_ENABLE_RESIZE=true`). Streaming defaults to 30 fps with Turbo off.
+Scaling and wallet close behavior retain their previous settings.
 
 ## StartOS
 
