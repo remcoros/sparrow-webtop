@@ -1,6 +1,7 @@
-FROM ghcr.io/linuxserver/baseimage-selkies:debiantrixie-47b9bee2-ls131 AS buildstage
+# Debian Trixie, Selkies 2.0.0 (debiantrixie-3900c0f0-ls140).
+FROM ghcr.io/linuxserver/baseimage-selkies@sha256:c3f25149cf58957fcc4259904b02cf88b1e51fc8df2f9946bc64650701e527e7 AS buildstage
 
-# these are specified in Makefile
+# Build-time Sparrow release settings
 ARG ARCH
 ARG SPARROW_VERSION=2.5.4
 ARG SPARROW_DEBVERSION=2.5.4-1
@@ -95,6 +96,10 @@ RUN \
   # cleanup
   rm ./sparrow* ./pgp_keys.asc
 
+# Remove the application catalogue, its installer, and startup provisioning.
+COPY strip-proot-apps.sh /tmp/strip-proot-apps.sh
+RUN sh /tmp/strip-proot-apps.sh && rm -f /tmp/strip-proot-apps.sh
+
 # start from scratch so we create smaller layers in the resulting image
 FROM scratch
 
@@ -103,7 +108,6 @@ COPY --from=buildstage / .
 # restore runtime metadata inherited from the Selkies base image
 ENV \
   # from https://github.com/linuxserver/docker-baseimage-debian/blob/master/Dockerfile
-  HOME="/root" \
   LANGUAGE="en_US.UTF-8" \
   LANG="en_US.UTF-8" \
   TERM="xterm" \
@@ -116,18 +120,37 @@ ENV \
   DISPLAY=:1 \
   PERL5LIB=/usr/local/bin \
   HOME=/config \
-  START_DOCKER=true \
   PULSE_RUNTIME_PATH=/defaults \
-  SELKIES_INTERPOSER=/usr/lib/selkies_joystick_interposer.so \
+  SHELL=/bin/bash \
+  __GL_SYNC_TO_VBLANK=0 \
+  SELKIES_INTERPOSER=/usr/lib/selkies_input_interposer.so \
+  SELKIES_WEBCAM_INTERPOSER=/usr/lib/selkies_v4l2_interposer.so \
+  SELKIES_ALLOWED_ORIGINS="*" \
+  # nginx authenticates the browser; the internal Selkies server is behind it.
+  SELKIES_ENABLE_BASIC_AUTH=false \
+  SELKIES_RATE_CONTROL_MODE="crf,cbr" \
   NVIDIA_DRIVER_CAPABILITIES=all \
   DISABLE_ZINK=false \
   DISABLE_DRI3=false \
-  SELKIES_ENCODER="x264enc,jpeg" \
+  # Preserve the previous software-video/JPEG choices under their Selkies 2 names.
+  SELKIES_ENCODER="h264enc,jpeg" \
   # custom for our image
   START_DOCKER=false \
   GTK_THEME=Adwaita:dark \
   GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc \
-  SELKIES_H264_STREAMING_MODE=true \
+  # Default to change-based encoding at 30 fps; keep both settings adjustable.
+  SELKIES_VIDEO_STREAMING_MODE=false \
+  SELKIES_FRAMERATE="30,8-120" \
+  # The previous WebSocket runtime always resized to the browser, despite its false setting default.
+  SELKIES_ENABLE_RESIZE=true \
+  SELKIES_ENABLE_RATE_CONTROL=false \
+  SELKIES_VIDEO_BITRATE="1000-100000" \
+  SELKIES_USE_BROWSER_CURSORS=false \
+  SELKIES_ENABLE_BINARY_CLIPBOARD=false \
+  SELKIES_AUDIO_ENABLED="false|locked" \
+  SELKIES_MICROPHONE_ENABLED="false|locked" \
+  # Request the browser camera only when an application opens its scanner.
+  SELKIES_WEBCAM_ON_START=demand \
   SELKIES_UI_SIDEBAR_SHOW_APPS=false \
   SELKIES_UI_SIDEBAR_SHOW_GAMEPADS=false \
   SELKIES_GAMEPAD_ENABLED=false \
