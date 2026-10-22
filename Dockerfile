@@ -1,5 +1,5 @@
-# Debian Trixie, Selkies 2.0.0 (debiantrixie-85cf5d4a-ls141).
-FROM ghcr.io/linuxserver/baseimage-selkies@sha256:5b3f10459933740554081efbca9c8d5e006faf5116b54ab40b7bfad7c8111849 AS buildstage
+# Debian Trixie, Selkies 2.1.0 (debiantrixie-5b7527ee-ls143).
+FROM ghcr.io/linuxserver/baseimage-selkies@sha256:fefbb88bff4cc8294ad42678b62f7c912da12e88dc4167101b161549fb4ad2d1 AS buildstage
 
 # Build-time Sparrow release settings
 ARG ARCH
