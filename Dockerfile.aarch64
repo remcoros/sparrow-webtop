@@ -1,10 +1,10 @@
-# Debian Trixie, Selkies 2.1.0 (debiantrixie-5b7527ee-ls143).
-FROM ghcr.io/linuxserver/baseimage-selkies@sha256:fefbb88bff4cc8294ad42678b62f7c912da12e88dc4167101b161549fb4ad2d1 AS buildstage
+# Debian Trixie, Selkies 2.1.0 (debiantrixie-3b96e1dd-ls145).
+FROM ghcr.io/linuxserver/baseimage-selkies@sha256:df4a9259e7535526005785202bd08b3b066250a64c65877802b2354fd6a975dd AS buildstage
 
 # Build-time Sparrow release settings
 ARG ARCH
-ARG SPARROW_VERSION=2.5.5
-ARG SPARROW_DEBVERSION=2.5.5-1
+ARG SPARROW_VERSION=2.5.6
+ARG SPARROW_DEBVERSION=2.5.6-1
 ARG SPARROW_PGP_SIG=E94618334C674B40
 
 RUN \
