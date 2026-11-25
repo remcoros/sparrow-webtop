@@ -34,10 +34,10 @@ test -x /proot-apps/proot-apps
 test -x /usr/local/bin/selkies-proot
 rm -rf /proot-apps /usr/local/bin/selkies-proot
 
-# Both bundled dashboards can render before the sidebar setting arrives. Keep
-# that interval from triggering an external catalogue request, too.
-for dashboard in selkies-dashboard selkies-dashboard-wish; do
-  assets="/usr/share/selkies/$dashboard/assets"
+# Both the LinuxServer dashboard and Selkies' bundled web client can render
+# before the sidebar setting arrives. Disable catalogue requests in both.
+for assets in /usr/share/selkies/selkies-dashboard/assets \
+  /lsiopy/lib/python*/site-packages/selkies/selkies_web/assets; do
   bundles=$(grep -rlF "$CATALOGUE_URL" "$assets") || {
     echo "Expected catalogue URL in $assets; inspect the updated dashboard" >&2
     exit 1
@@ -46,7 +46,7 @@ for dashboard in selkies-dashboard selkies-dashboard-wish; do
     sed -i "s#$CATALOGUE_URL#/proot-apps-removed/#g" "$bundle"
   done
 done
-if grep -rqF "$CATALOGUE_URL" /usr/share/selkies; then
+if grep -rqF "$CATALOGUE_URL" /usr/share/selkies /lsiopy/lib/python*/site-packages/selkies/selkies_web; then
   echo "External application catalogue URL remains in a dashboard" >&2
   exit 1
 fi
